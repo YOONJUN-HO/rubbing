@@ -11,49 +11,38 @@
             height: 100%;
             background-color: white;
         }
-        .red-area {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: rgba(255, 0, 0, 0);
-            border-radius: 50%;
-            pointer-events: none;
-            transition: background-color 0.1s;
-        }
     </style>
 </head>
 <body>
-    <div id="container"></div>
-
     <script>
-        const container = document.getElementById('container');
-
-        container.addEventListener('touchmove', function(e) {
+        document.addEventListener('touchmove', function(e) {
             const touch = e.touches[0];
-            let x = touch.clientX;
-            let y = touch.clientY;
+            const x = touch.clientX;
+            const y = touch.clientY;
 
-            let redArea = document.createElement('div');
-            redArea.classList.add('red-area');
-            redArea.style.left = `${x - 50}px`;
-            redArea.style.top = `${y - 50}px`;
+            const redDiv = document.createElement('div');
+            redDiv.style.position = 'absolute';
+            redDiv.style.left = `${x - 50}px`;
+            redDiv.style.top = `${y - 50}px`;
+            redDiv.style.width = '100px';
+            redDiv.style.height = '100px';
+            redDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+            redDiv.style.borderRadius = '50%';
 
-            let opacity = 0;
-            redArea.style.backgroundColor = `rgba(255, 0, 0, ${opacity})`;
+            document.body.appendChild(redDiv);
 
-            container.appendChild(redArea);
-
+            let opacity = 0.1;
             const interval = setInterval(() => {
                 if (opacity < 1) {
                     opacity += 0.1;
-                    redArea.style.backgroundColor = `rgba(255, 0, 0, ${opacity})`;
+                    redDiv.style.backgroundColor = `rgba(255, 0, 0, ${opacity})`;
                 } else {
                     clearInterval(interval);
                 }
             }, 50);
 
             setTimeout(() => {
-                container.removeChild(redArea);
+                document.body.removeChild(redDiv);
             }, 1000);
         });
     </script>
