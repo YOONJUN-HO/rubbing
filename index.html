@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>화면 문지르기</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: white;
+        }
+        .red-area {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 0, 0, 0);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: background-color 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        const container = document.getElementById('container');
+
+        container.addEventListener('touchmove', function(e) {
+            const touch = e.touches[0];
+            let x = touch.clientX;
+            let y = touch.clientY;
+
+            let redArea = document.createElement('div');
+            redArea.classList.add('red-area');
+            redArea.style.left = `${x - 50}px`;
+            redArea.style.top = `${y - 50}px`;
+
+            let opacity = 0;
+            redArea.style.backgroundColor = `rgba(255, 0, 0, ${opacity})`;
+
+            container.appendChild(redArea);
+
+            const interval = setInterval(() => {
+                if (opacity < 1) {
+                    opacity += 0.1;
+                    redArea.style.backgroundColor = `rgba(255, 0, 0, ${opacity})`;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
+
+            setTimeout(() => {
+                container.removeChild(redArea);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
